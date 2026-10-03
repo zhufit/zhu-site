@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/common/Container.astro';
+---
+
+<BaseLayout title="404 · 页面未找到" description="这个页面不存在，或已被移动。可以返回首页或继续浏览文章。">
+  <Container narrow class="page-section">
+    <div class="not-found">
+      <p class="error-code" aria-hidden="true">404</p>
+      <h1>页面未找到</h1>
+      <p class="error-description">这个页面不存在，或已被移动。</p>
+      <nav class="error-links" aria-label="继续浏览">
+        <a href="/">返回首页 →</a>
+        <a href="/writing">浏览文章 →</a>
+      </nav>
+    </div>
+  </Container>
+</BaseLayout>
+
+<style>
+  .not-found { padding-block: var(--space-6); }
+  .error-code { font-family: var(--font-mono); font-size: var(--text-hero); line-height: 1; color: var(--color-text-secondary); margin-block-end: var(--space-6); }
+  h1 { font-size: var(--text-h2); }
+  .error-description { margin-block-start: var(--space-5); color: var(--color-text-secondary); }
+  .error-links { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); margin-block-start: var(--space-6); padding-block-start: var(--space-5); border-block-start: 1px solid var(--color-border); }
+  .error-links a { display: inline-flex; align-items: center; min-block-size: var(--space-7); }
+</style>

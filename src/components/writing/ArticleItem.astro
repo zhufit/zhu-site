@@ -1,0 +1,75 @@
+---
+import type { Post } from '../../utils/content';
+import { formatDate } from '../../utils/date';
+import ArticleTags from './ArticleTags.astro';
+
+interface Props {
+  post: Post;
+}
+
+const { post: { id, data } } = Astro.props;
+---
+
+<article class="article-item">
+  <time datetime={data.publishedAt.toISOString()}>{formatDate(data.publishedAt)}</time>
+  <div class="article-summary">
+    <h3><a href={`/writing/${id}`}>{data.title}</a></h3>
+    <p>{data.description}</p>
+    <div class="article-labels">
+      <span>{data.category}</span>
+      <ArticleTags tags={data.tags} />
+    </div>
+  </div>
+</article>
+
+<style>
+  .article-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: baseline;
+    gap: var(--space-6);
+    padding-block: var(--space-6);
+  }
+
+  time {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    color: var(--color-text-secondary);
+  }
+
+  .article-summary {
+    min-inline-size: 0;
+  }
+
+  h3 a {
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    text-decoration: underline;
+  }
+
+  .article-summary > p {
+    max-inline-size: var(--article-width);
+    margin-block-start: var(--space-3);
+    color: var(--color-text-secondary);
+  }
+
+  .article-labels {
+    overflow-wrap: anywhere;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin-block-start: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  @media (width < 768px) {
+    .article-item {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-3);
+    }
+  }
+</style>

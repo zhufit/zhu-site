@@ -1,0 +1,53 @@
+---
+import type { Project } from '../../utils/content';
+import { formatDate } from '../../utils/date';
+import ProjectStatus from './ProjectStatus.astro';
+
+interface Props { project: Project; index: number; }
+const { project: { id, data }, index } = Astro.props;
+---
+
+<a class="project-item" href={`/projects/${id}`}>
+  <span class="project-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+  <div class="project-details">
+    <h2>{data.title}</h2>
+    <p class="project-summary">{data.summary}</p>
+    {data.techStack.length > 0 && <p class="project-stack">{data.techStack.join(' / ')}</p>}
+  </div>
+  <div class="project-meta">
+    <ProjectStatus status={data.status} />
+    <p class="project-dates">
+      <span class="visually-hidden">开始日期：</span>
+      <time datetime={data.startedAt.toISOString()}>{formatDate(data.startedAt)}</time>
+      {data.endedAt && <><span aria-hidden="true"> — </span><span class="visually-hidden">，结束日期：</span><time datetime={data.endedAt.toISOString()}>{formatDate(data.endedAt)}</time></>}
+    </p>
+    <span class="project-explore" aria-hidden="true">Explore →</span>
+  </div>
+</a>
+
+<style>
+  .project-item {
+    display: grid;
+    grid-template-columns: 2ch minmax(0, 1fr) auto;
+    align-items: start;
+    gap: var(--space-5) var(--space-6);
+    padding-block: var(--space-6);
+    text-decoration: none;
+  }
+  .project-item:hover h2 { text-decoration: underline; }
+  .project-number, .project-stack, .project-dates {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+  .project-details { min-inline-size: 0; overflow-wrap: anywhere; }
+  .project-details h2 { font-size: var(--text-h3); }
+  .project-summary { max-inline-size: var(--article-width); margin-block-start: var(--space-3); color: var(--color-text-secondary); }
+  .project-stack { margin-block-start: var(--space-4); }
+  .project-meta { display: grid; gap: var(--space-2); text-align: end; font-size: var(--text-sm); }
+  .project-explore { margin-block-start: var(--space-3); }
+  @media (width < 768px) {
+    .project-item { grid-template-columns: 2ch minmax(0, 1fr); gap: var(--space-4); }
+    .project-meta { grid-column: 2; text-align: start; }
+  }
+</style>

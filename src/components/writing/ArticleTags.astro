@@ -1,0 +1,27 @@
+---
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+{tags.length > 0 && (
+  <ul class="article-tags" role="list" aria-label="文章标签">
+    {tags.map((tag) => <li>#{tag}</li>)}
+  </ul>
+)}
+
+<style>
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    overflow-wrap: anywhere;
+  }
+</style>

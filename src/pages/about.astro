@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/common/Container.astro';
+import PageHeader from '../components/common/PageHeader.astro';
+import { SITE } from '../config/site';
+
+const { about, social } = SITE;
+const github = social.github.trim();
+const email = social.email.trim();
+---
+
+<BaseLayout title="About" description={about.description}>
+  <Container narrow class="page-section">
+    <PageHeader title="About" description={about.description} />
+    <div class="about-content">
+      {about.introduction.length > 0 && (
+        <section aria-labelledby="about-introduction">
+          <h2 id="about-introduction">Introduction</h2>
+          <div class="introduction flow">{about.introduction.map(paragraph => <p>{paragraph}</p>)}</div>
+        </section>
+      )}
+      {[
+        { id: 'focus', title: 'Focus', items: about.focus },
+        { id: 'exploring', title: 'Currently Exploring', items: SITE.home.exploring },
+        { id: 'technology', title: 'Technology', items: about.technology },
+      ].filter(section => section.items.length > 0).map(({ id, title, items }) => (
+        <section aria-labelledby={`about-${id}`}>
+          <h2 id={`about-${id}`}>{title}</h2>
+          <ul class="about-list" role="list">{items.map(item => <li>{item}</li>)}</ul>
+        </section>
+      ))}
+      {github && <section aria-labelledby="about-github"><h2 id="about-github">GitHub</h2><p><a href={github}>查看 GitHub →</a></p></section>}
+      {email && <section aria-labelledby="about-contact"><h2 id="about-contact">Contact</h2><p><a href={`mailto:${email}`}>{email}</a></p></section>}
+    </div>
+  </Container>
+</BaseLayout>
+
+<style>
+  .about-content { display: grid; gap: var(--space-7); margin-block-start: var(--space-8); overflow-wrap: anywhere; }
+  .about-content section { border-block-start: 1px solid var(--color-border); padding-block-start: var(--space-5); }
+  .about-content h2 { font-size: var(--text-h3); margin-block-end: var(--space-5); }
+  .introduction { font-size: var(--text-h4); }
+  .about-list { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-6); margin: 0; padding: 0; list-style: none; }
+  .about-list, .introduction { color: var(--color-text-secondary); }
+  @media (width < 768px) {
+    .about-content { gap: var(--space-6); margin-block-start: var(--space-7); }
+    .introduction { font-size: var(--text-base); }
+  }
+</style>

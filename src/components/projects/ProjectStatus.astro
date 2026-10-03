@@ -1,0 +1,10 @@
+---
+import type { Project } from '../../utils/content';
+interface Props { status: Project['data']['status']; }
+const { status } = Astro.props;
+const labels: Record<Props['status'], string> = {
+  exploring: '探索中', active: '进行中', paused: '已暂停',
+  completed: '已完成', archived: '已归档',
+};
+---
+<span>{labels[status]}</span>

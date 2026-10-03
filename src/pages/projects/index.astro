@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/common/Container.astro';
+import PageHeader from '../../components/common/PageHeader.astro';
+import ProjectItem from '../../components/projects/ProjectItem.astro';
+import { getPublishedProjects } from '../../utils/content';
+
+const description = '从想法到实践，记录正在构建与持续探索的项目。';
+const projects = await getPublishedProjects();
+---
+
+<BaseLayout title="Projects" description={description}>
+  <Container class="page-section">
+    <PageHeader title="Projects" description={description} />
+    <div class="projects-content">
+      {projects.length > 0 ? (
+        <ol class="projects-list" role="list">
+          {projects.map((project, index) => <li><ProjectItem project={project} index={index} /></li>)}
+        </ol>
+      ) : <p class="projects-empty">项目记录正在整理中，稍后再来看看。</p>}
+    </div>
+  </Container>
+</BaseLayout>
+
+<style>
+  .projects-content { margin-block-start: var(--space-8); }
+  .projects-list { margin: 0; padding: 0; list-style: none; }
+  .projects-list li { border-block-start: 1px solid var(--color-border); }
+  .projects-list li:last-child { border-block-end: 1px solid var(--color-border); }
+  .projects-empty { color: var(--color-text-secondary); }
+  @media (width < 768px) { .projects-content { margin-block-start: var(--space-7); } }
+</style>

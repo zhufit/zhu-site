@@ -1,0 +1,28 @@
+---
+import { SITE } from '../../config/site';
+import Container from './Container.astro';
+
+const year = new Date().getUTCFullYear();
+---
+
+<footer class="site-footer">
+  <Container class="footer-content">
+    <small>© {year} {SITE.author}</small>
+    {SITE.social.github && <a href={SITE.social.github}>GitHub</a>}
+  </Container>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: var(--space-6);
+    color: var(--color-text-secondary);
+  }
+
+  .footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+  }
+</style>

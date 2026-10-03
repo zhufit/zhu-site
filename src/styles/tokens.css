@@ -1,0 +1,53 @@
+:root {
+  --font-sans: Inter, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+  --color-bg: #f7f7f5;
+  --color-surface: #ffffff;
+  --color-text: #171717;
+  --color-text-secondary: #686868;
+  --color-text-muted: #707068;
+  --color-border: rgb(0 0 0 / 8%);
+  --color-focus: #315bcc;
+  --color-selection-bg: #171717;
+  --color-selection-text: #ffffff;
+
+  --content-width: 1180px;
+  --article-width: 760px;
+  --page-gutter: clamp(20px, 4vw, 48px);
+  --page-space: clamp(32px, 6vw, 96px);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-hero: clamp(4rem, 12vw, 9rem);
+  --text-h1: clamp(2.5rem, 5vw, 4rem);
+  --text-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --text-h3: clamp(1.25rem, 2vw, 1.5rem);
+  --text-h4: 1.125rem;
+  --line-height-body: 1.75;
+  --line-height-heading: 1.2;
+  --line-height-code: 1.6;
+
+  --transition-fast: 160ms ease;
+  --transition-normal: 260ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0ms linear;
+    --transition-normal: 0ms linear;
+  }
+}

@@ -1,0 +1,32 @@
+---
+import { formatDate } from '../../utils/date';
+
+interface Props {
+  publishedAt: Date;
+  updatedAt?: Date;
+  readingTime: number;
+}
+
+const { publishedAt, updatedAt, readingTime } = Astro.props;
+---
+
+<div class="article-meta">
+  <span>发布于 <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time></span>
+  {updatedAt && <span>更新于 <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></span>}
+  <span>{readingTime} min read</span>
+</div>
+
+<style>
+  .article-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  time {
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+</style>

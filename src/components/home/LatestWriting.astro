@@ -1,0 +1,84 @@
+---
+import type { Post } from '../../utils/content';
+import { formatDate } from '../../utils/date';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section aria-labelledby="latest-writing-title">
+  <h2 id="latest-writing-title" class="home-section-title">Latest Writing</h2>
+  {posts.length > 0 ? (
+    <ul class="writing-list" role="list">
+      {posts.map(({ id, data }) => (
+        <li>
+          <a class="writing-link" href={`/writing/${id}`}>
+            <time datetime={data.publishedAt.toISOString()}>{formatDate(data.publishedAt)}</time>
+            <div class="writing-content">
+              <h3>{data.title}</h3>
+              <p>{data.description}</p>
+            </div>
+            <span aria-hidden="true">→</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  ) : <p class="home-empty">新的文章正在整理中。</p>}
+</section>
+
+<style>
+  .writing-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .writing-list li {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .writing-link {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: var(--space-5);
+    padding-block: var(--space-6);
+    text-decoration: none;
+  }
+
+  .writing-link:hover h3 {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  time {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    white-space: nowrap;
+    color: var(--color-text-secondary);
+  }
+
+  .writing-content {
+    min-inline-size: 0;
+  }
+
+  .writing-content p {
+    max-inline-size: var(--article-width);
+    margin-block-start: var(--space-3);
+    color: var(--color-text-secondary);
+  }
+
+  @media (width < 768px) {
+    .writing-link {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-3) var(--space-4);
+    }
+
+    time {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

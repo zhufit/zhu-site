@@ -1,0 +1,35 @@
+{
+  "name": "zhu-site",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test:security": "node --test tests/cache-security.test.mjs",
+    "test:content": "node --test tests/content-collections.test.mjs",
+    "test:utils": "node --experimental-strip-types --test tests/text-utils.test.mjs && node --test tests/content-utils.test.mjs",
+    "test:home": "node --test tests/home.test.mjs",
+    "test:writing": "node --test tests/writing.test.mjs",
+    "test:article-layout": "node --test tests/article-layout.test.mjs",
+    "test:article-routes": "node --test tests/article-routes.test.mjs",
+    "test:projects": "node --test tests/projects.test.mjs",
+    "test:project-detail": "node --test tests/project-detail.test.mjs",
+    "test:preview": "node --test tests/production-preview.test.mjs"
+  },
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=9.6.5"
+  },
+  "dependencies": {
+    "@astrojs/markdown-satteri": "0.4.2",
+    "@astrojs/mdx": "^8.0.2",
+    "astro": "7.3.5",
+    "http-cache-semantics": "file:./vendor/http-cache-semantics"
+  },
+  "overrides": {
+    "http-cache-semantics": "$http-cache-semantics"
+  }
+}

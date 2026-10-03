@@ -1,0 +1,69 @@
+---
+import type { Post } from '../../utils/content';
+
+interface Props {
+  previous?: Post;
+  next?: Post;
+}
+
+const { previous, next } = Astro.props;
+---
+
+{(previous || next) && (
+  <nav class="article-navigation" aria-label="文章导航">
+    {previous && (
+      <a class="previous" rel="prev" href={`/writing/${previous.id}`}>
+        <small>← 上一篇</small>
+        <span>{previous.data.title}</span>
+      </a>
+    )}
+    {next && (
+      <a class="next" rel="next" href={`/writing/${next.id}`}>
+        <small>下一篇 →</small>
+        <span>{next.data.title}</span>
+      </a>
+    )}
+  </nav>
+)}
+
+<style>
+  .article-navigation {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5) var(--space-7);
+  }
+
+  a {
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    padding-block: var(--space-3);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  a:hover span {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  small {
+    color: var(--color-text-secondary);
+  }
+
+  .next {
+    grid-column: 2;
+    text-align: end;
+  }
+
+  @media (width < 768px) {
+    .article-navigation {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .next {
+      grid-column: auto;
+      text-align: start;
+    }
+  }
+</style>

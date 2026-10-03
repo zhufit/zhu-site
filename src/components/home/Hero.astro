@@ -1,0 +1,37 @@
+---
+import { SITE } from '../../config/site';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <h1 id="hero-title">{SITE.name}</h1>
+  <p class="hero-role">{SITE.home.role}</p>
+  <p class="hero-introduction">
+    {SITE.home.introduction.map((line) => <span>{line}</span>)}
+  </p>
+</section>
+
+<style>
+  .hero h1 {
+    font-size: var(--text-hero);
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  .hero-role {
+    margin-block-start: var(--space-5);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .hero-introduction {
+    max-inline-size: var(--article-width);
+    margin-block-start: var(--space-6);
+    font-size: var(--text-h2);
+    line-height: 1.4;
+  }
+
+  .hero-introduction span {
+    display: block;
+  }
+</style>

@@ -1,0 +1,93 @@
+---
+import type { Project } from '../../utils/content';
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section aria-labelledby="selected-projects-title">
+  <h2 id="selected-projects-title" class="home-section-title">Selected Projects</h2>
+  {projects.length > 0 ? (
+    <ol class="project-list" role="list">
+      {projects.map(({ id, data }, index) => (
+        <li>
+          <a class="project-link" href={`/projects/${id}`}>
+            <span class="project-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <div class="project-content">
+              <h3>{data.title}</h3>
+              {data.techStack.length > 0 && <p class="project-stack">{data.techStack.join(' / ')}</p>}
+              <p class="project-summary">{data.summary}</p>
+            </div>
+            <span class="project-explore" aria-hidden="true">Explore →</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  ) : <p class="home-empty">项目记录正在整理中。</p>}
+</section>
+
+<style>
+  .project-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .project-list li {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .project-link {
+    display: grid;
+    grid-template-columns: 2ch minmax(0, 1fr) auto;
+    align-items: start;
+    gap: var(--space-5);
+    padding-block: var(--space-6);
+    text-decoration: none;
+  }
+
+  .project-link:hover h3 {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .project-content {
+    min-inline-size: 0;
+  }
+
+  .project-number,
+  .project-stack {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .project-stack {
+    margin-block-start: var(--space-2);
+  }
+
+  .project-summary {
+    max-inline-size: var(--article-width);
+    margin-block-start: var(--space-3);
+    color: var(--color-text-secondary);
+  }
+
+  .project-explore {
+    font-size: var(--text-sm);
+    white-space: nowrap;
+  }
+
+  @media (width < 768px) {
+    .project-link {
+      grid-template-columns: 2ch minmax(0, 1fr);
+      gap: var(--space-4);
+    }
+
+    .project-explore {
+      grid-column: 2;
+    }
+  }
+</style>

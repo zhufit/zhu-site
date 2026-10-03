@@ -1,0 +1,81 @@
+---
+import { SITE } from '../../config/site';
+import Container from './Container.astro';
+
+const pathname = Astro.url.pathname.replace(/\/+$/, '') || '/';
+---
+
+<header class="site-header">
+  <Container class="header-content">
+    <a class="site-brand" href="/" aria-label={`${SITE.name} 首页`}>{SITE.name}</a>
+    <nav aria-label="主导航">
+      <ul class="navigation">
+        {SITE.navigation.map(({ name, href }) => (
+          <li>
+            <a
+              href={href}
+              aria-current={pathname === href ? 'page' : pathname.startsWith(`${href}/`) ? 'location' : undefined}
+            >
+              {name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </Container>
+</header>
+
+<style>
+  .site-header {
+    padding-block: var(--space-5);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+  }
+
+  .site-brand {
+    font-size: var(--text-h3);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  nav {
+    min-inline-size: 0;
+  }
+
+  .navigation {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .navigation a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--space-7);
+    padding-inline: var(--space-1);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  .navigation a:hover,
+  .navigation a[aria-current] {
+    color: var(--color-text);
+    text-decoration: underline;
+  }
+
+  @media (width < 768px) {
+    nav {
+      inline-size: 100%;
+    }
+  }
+</style>

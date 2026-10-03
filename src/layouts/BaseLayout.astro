@@ -1,0 +1,54 @@
+---
+import { SITE } from '../config/site';
+import Header from '../components/common/Header.astro';
+import Footer from '../components/common/Footer.astro';
+import '../styles/tokens.css';
+import '../styles/reset.css';
+import '../styles/global.css';
+import '../styles/typography.css';
+import '../styles/utilities.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  ogType?: 'website' | 'article';
+}
+
+const { title, description, image, ogType = 'website' } = Astro.props;
+const heading = title?.trim();
+const pageTitle = heading && heading !== SITE.title ? `${heading} - ${SITE.title}` : SITE.title;
+const pageDescription = description?.trim() || SITE.description;
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const imageUrl = image && (Astro.site || /^https?:\/\//i.test(image))
+  ? new URL(image, Astro.site)
+  : undefined;
+const pageImage = imageUrl && ['https:', 'http:'].includes(imageUrl.protocol) ? imageUrl.href : undefined;
+---
+
+<!doctype html>
+<html lang="zh-CN" prefix="og: https://ogp.me/ns#">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="zh_CN" />
+    {pageUrl && <meta property="og:url" content={pageUrl} />}
+    {pageImage && <meta property="og:image" content={pageImage} />}
+    {pageImage && <meta property="og:image:alt" content={pageTitle} />}
+  </head>
+  <body class="site-shell">
+    <a class="skip-link" href="#main-content">跳到主要内容</a>
+    <Header />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

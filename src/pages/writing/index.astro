@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/common/Container.astro';
+import PageHeader from '../../components/common/PageHeader.astro';
+import ArticleItem from '../../components/writing/ArticleItem.astro';
+import { getPublishedPosts, type Post } from '../../utils/content';
+
+const description = '关于技术、项目和过程中留下的记录。';
+const posts = await getPublishedPosts();
+const years = new Map<number, Post[]>();
+
+// Group the already sorted entries for presentation; visibility and sorting stay in content.ts.
+for (const post of posts) {
+  const year = post.data.publishedAt.getUTCFullYear();
+  const entries = years.get(year) ?? [];
+  entries.push(post);
+  years.set(year, entries);
+}
+---
+
+<BaseLayout title="Writing" description={description}>
+  <Container class="page-section">
+    <PageHeader title="Writing" description={description} />
+    <div class="writing-content">
+      {years.size > 0 ? (
+        <div class="writing-years">
+          {Array.from(years).map(([year, entries]) => (
+            <section class="writing-year" aria-labelledby={`writing-year-${year}`}>
+              <h2 id={`writing-year-${year}`}>{year}</h2>
+              <ol class="article-list" role="list">
+                {entries.map((post) => <li><ArticleItem post={post} /></li>)}
+              </ol>
+            </section>
+          ))}
+        </div>
+      ) : <p class="writing-empty">文章正在整理中，稍后再来看看。</p>}
+    </div>
+  </Container>
+</BaseLayout>
+
+<style>
+  .writing-content {
+    margin-block-start: var(--space-8);
+  }
+
+  .writing-years {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .writing-year {
+    display: grid;
+    grid-template-columns: 6ch minmax(0, 1fr);
+    gap: var(--space-5) var(--space-7);
+  }
+
+  .writing-year h2 {
+    padding-block-start: var(--space-6);
+    font-family: var(--font-mono);
+    font-size: var(--text-h3);
+    color: var(--color-text-secondary);
+  }
+
+  .article-list {
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .article-list li {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .writing-empty {
+    color: var(--color-text-secondary);
+  }
+
+  @media (width < 768px) {
+    .writing-content {
+      margin-block-start: var(--space-7);
+    }
+
+    .writing-year {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .writing-year h2 {
+      padding-block-start: 0;
+    }
+  }
+</style>

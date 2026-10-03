@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/common/Container.astro';
+import Hero from '../components/home/Hero.astro';
+import Exploring from '../components/home/Exploring.astro';
+import SelectedProjects from '../components/home/SelectedProjects.astro';
+import LatestWriting from '../components/home/LatestWriting.astro';
+import { getFeaturedProjects, getLatestPosts } from '../utils/content';
+
+const [projects, posts] = await Promise.all([getFeaturedProjects(), getLatestPosts(3)]);
+---
+
+<BaseLayout>
+  <Container class="home-content">
+    <Hero />
+    <Exploring />
+    <SelectedProjects projects={projects} />
+    <LatestWriting posts={posts} />
+  </Container>
+</BaseLayout>
+
+<style>
+  .home-content {
+    display: grid;
+    gap: var(--space-9);
+    padding-block: var(--space-7) var(--space-9);
+  }
+
+  .home-content :global(.home-section-title) {
+    margin-block-end: var(--space-6);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .home-content :global(.home-empty) {
+    color: var(--color-text-secondary);
+  }
+
+  @media (width < 768px) {
+    .home-content {
+      gap: var(--space-8);
+      padding-block-end: var(--space-8);
+    }
+  }
+</style>

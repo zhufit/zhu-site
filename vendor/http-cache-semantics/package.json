@@ -1,0 +1,13 @@
+{
+  "name": "http-cache-semantics",
+  "version": "4.2.0",
+  "private": true,
+  "description": "Locally patched upstream 4.2.0 for CVE-2026-93748; see PATCH.md",
+  "main": "index.js",
+  "license": "BSD-2-Clause",
+  "files": [
+    "index.js",
+    "LICENSE",
+    "PATCH.md"
+  ]
+}

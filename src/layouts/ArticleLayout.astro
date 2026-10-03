@@ -1,0 +1,76 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Container from '../components/common/Container.astro';
+import ArticleMeta from '../components/writing/ArticleMeta.astro';
+import ArticleTags from '../components/writing/ArticleTags.astro';
+import ArticleNavigation from '../components/writing/ArticleNavigation.astro';
+import { getPostNavigation, type Post } from '../utils/content';
+import { calculateReadingTime } from '../utils/reading-time';
+import '../styles/article.css';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const readingTime = calculateReadingTime(post.body ?? '');
+const { previous, next } = await getPostNavigation(post.id);
+---
+
+<BaseLayout title={data.title} description={data.description} image={data.cover} ogType="article">
+  <Container narrow class="page-section">
+    <article aria-labelledby="article-title">
+      <header class="article-header">
+        <p class="article-category">{data.category}</p>
+        <h1 id="article-title">{data.title}</h1>
+        <p class="article-description">{data.description}</p>
+        <ArticleMeta publishedAt={data.publishedAt} updatedAt={data.updatedAt} readingTime={readingTime} />
+      </header>
+      <div class="article-content">
+        <slot />
+      </div>
+      {(data.tags.length > 0 || previous || next) && (
+        <footer class="article-footer">
+          <ArticleTags tags={data.tags} />
+          <ArticleNavigation previous={previous} next={next} />
+        </footer>
+      )}
+    </article>
+  </Container>
+</BaseLayout>
+
+<style>
+  .article-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    overflow-wrap: anywhere;
+    gap: var(--space-5);
+    padding-block-end: var(--space-6);
+    margin-block-end: var(--space-6);
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .article-category {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .article-description {
+    font-size: var(--text-h4);
+    color: var(--color-text-secondary);
+  }
+
+  .article-content {
+    min-inline-size: 0;
+  }
+
+  .article-footer {
+    display: grid;
+    gap: var(--space-6);
+    padding-block-start: var(--space-6);
+    margin-block-start: var(--space-8);
+    border-block-start: 1px solid var(--color-border);
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import { SITE } from '../../config/site';
+---
+
+<section aria-labelledby="exploring-title">
+  <h2 id="exploring-title" class="home-section-title">Currently Exploring</h2>
+  <ul class="exploring-list" role="list">
+    {SITE.home.exploring.map((direction) => <li>{direction}</li>)}
+  </ul>
+</section>
+
+<style>
+  .exploring-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-7);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-h3);
+  }
+</style>
